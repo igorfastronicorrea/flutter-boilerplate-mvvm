@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate_mvvm/data/api/api_response.dart';
 import 'package:flutter_boilerplate_mvvm/feature/login/presentation/login_viewmodel.dart';
+import 'package:flutter_boilerplate_mvvm/setup_injection.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,15 +14,17 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
-    LoginViewModel viewModel =
-        Provider.of<LoginViewModel>(context, listen: false);
+    //LoginViewModel viewModel =
+    //  Provider.of<LoginViewModel>(context, listen: false);
+    final viewModel = getIt<LoginViewModel>();
     viewModel.valideLogin();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    LoginViewModel viewModel = Provider.of<LoginViewModel>(context);
+    //LoginViewModel viewModel = Provider.of<LoginViewModel>(context);
+    final viewModel = getIt<LoginViewModel>();
 
     return Scaffold(
       backgroundColor: Colors.white,
