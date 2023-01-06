@@ -10,8 +10,7 @@ import 'package:flutter_boilerplate_mvvm/feature/login/repositories/login_reposi
 import 'package:get_it/get_it.dart';
 
 class LoginViewModel with ChangeNotifier {
-  String _userName = "";
-  String get userName => _userName;
+  String userName = "";
 
   final LoginRepository _repository;
 
@@ -20,14 +19,14 @@ class LoginViewModel with ChangeNotifier {
   ) : _repository = loginRepository;
 
   setUserName(String nome) {
-    _userName = nome;
+    userName = nome;
 
     notifyListeners();
   }
 
   valideLogin() async {
     try {
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 4));
 
       LoginModel response = await _repository.fetchLogin();
 

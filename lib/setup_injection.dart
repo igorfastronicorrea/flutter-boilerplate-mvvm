@@ -10,12 +10,18 @@ GetIt getIt = GetIt.I;
 void setupInjection() {
   viewModel();
   repository();
+  apiService();
 }
 
 repository() {
-  getIt.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl());
+  getIt.registerLazySingleton<LoginRepository>(
+      () => LoginRepositoryImpl(getIt()));
 }
 
 viewModel() {
   getIt.registerFactory(() => LoginViewModel(getIt()));
+}
+
+apiService() {
+  getIt.registerLazySingleton<BaseService>(() => ApiService());
 }

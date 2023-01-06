@@ -12,20 +12,27 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final viewModel = getIt<LoginViewModel>();
+
   @override
   void initState() {
-    //LoginViewModel viewModel =
-    //  Provider.of<LoginViewModel>(context, listen: false);
-    final viewModel = getIt<LoginViewModel>();
     viewModel.valideLogin();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    //LoginViewModel viewModel = Provider.of<LoginViewModel>(context);
-    final viewModel = getIt<LoginViewModel>();
+    return ChangeNotifierProvider(
+      create: (context) => viewModel,
+      child: Consumer<LoginViewModel>(
+        builder: ((context, viewModel, child) {
+          return getUi(viewModel);
+        }),
+      ),
+    );
+  }
 
+  Widget getUi(LoginViewModel viewModel) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -42,16 +49,10 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
       body: viewModel.userName.isNotEmpty
-          ? Container(
-              child: _ui(viewModel),
-            )
+          ? Text(viewModel.userName)
           : const Center(
               child: CircularProgressIndicator(),
             ),
     );
-  }
-
-  _ui(usersViewModel) {
-    return Text(usersViewModel.userName);
   }
 }
