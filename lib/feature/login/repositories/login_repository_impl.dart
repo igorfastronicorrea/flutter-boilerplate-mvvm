@@ -13,7 +13,7 @@ class LoginRepositoryImpl implements LoginRepository {
 
   @override
   Future<LoginModel> fetchLogin() async {
-    var response = await _apiService.getAuthentication("logina");
+    var response = await _apiService.getAuthentication("login");
     return response;
   }
 }

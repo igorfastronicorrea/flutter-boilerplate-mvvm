@@ -1,11 +1,11 @@
 class ApiResponseData<T> {
-  Status status;
+  StatusResponse status;
   T? data;
   String? message;
 
-  ApiResponseData.success(this.data) : status = Status.SUCCESS;
+  ApiResponseData.success(this.data) : status = StatusResponse.SUCCESS;
 
-  ApiResponseData.error(this.message) : status = Status.ERROR;
+  ApiResponseData.error(this.message) : status = StatusResponse.ERROR;
 
   @override
   String toString() {
@@ -13,4 +13,4 @@ class ApiResponseData<T> {
   }
 }
 
-enum Status { SUCCESS, ERROR }
+enum StatusResponse { SUCCESS, ERROR }
