@@ -8,7 +8,7 @@ import 'package:flutter_boilerplate_mvvm/setup_injection.dart';
 import 'package:flutter_boilerplate_mvvm/status.dart';
 import 'package:flutter_boilerplate_mvvm/utils/alert_dialog.dart';
 import 'package:provider/provider.dart';
-import 'dart:io' show Platform;
+import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -41,49 +41,22 @@ class _LoginPageState extends State<LoginPage> {
     switch (viewModel.status) {
       case Status.SUCCESS:
         Future.delayed(Duration.zero, () async {
-          var result = await DialogUtils.alerta(context).then((value) {
-            if (value!!) {
-              print("ok");
-            }
-          });
-
-          /*if (Platform.isAndroid) {
-              showDialog(
-                context: context,
-                builder: (contexta) => AlertDialog(
-                  title: Text("Test"),
-                  content: Text("test"),
-                  actions: [
-                    TextButton(
-                        onPressed: () => Navigator.pop(contexta, 'Cancel'),
-                        child: Text("Cancel")),
-                    TextButton(
-                        onPressed: () => Navigator.pop(contexta, 'OK'),
-                        child: Text('Ok')),
-                  ],
-                ),
-              );
-            } else {
-              showDialog(
-                context: context,
-                builder: (contexta) => CupertinoAlertDialog(
-                  title: Text("Test"),
-                  content: Text("test"),
-                  actions: [
-                    TextButton(
-                        onPressed: () => Navigator.pop(contexta, 'Cancel'),
-                        child: Text("Cancel")),
-                    TextButton(
-                        onPressed: () => Navigator.pop(contexta, 'OK'),
-                        child: Text('Ok')),
-                  ],
-                ),
-              );
-            }*/
+          Get.toNamed("/homepage");
         });
 
         return loginWidget();
       case Status.ERROR:
+        Future.delayed(Duration.zero, () async {
+          await DialogUtils.alertInformation(
+                  context, "", "Usuário ou senha inválidos!")
+              .then((value) {
+            if (value ?? false) {
+              print("ok");
+            } else {
+              print("cancel");
+            }
+          });
+        });
         return loginWidget();
       default:
         return loginWidget();
@@ -96,17 +69,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Users'),
-        actions: [
-          IconButton(
-            onPressed: () async {},
-            icon: const Icon(Icons.add),
-          ),
-          IconButton(
-            onPressed: () async {},
-            icon: const Icon(Icons.refresh),
-          )
-        ],
+        title: const Text('Login'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
