@@ -29,7 +29,7 @@ class LoginViewModel with ChangeNotifier {
 
   valideLogin() async {
     try {
-      await Future.delayed(const Duration(seconds: 4));
+      await Future.delayed(const Duration(seconds: 1));
 
       LoginModel response = await _repository.fetchLogin();
 

@@ -1,11 +1,14 @@
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate_mvvm/data/api/api_response.dart';
 import 'package:flutter_boilerplate_mvvm/feature/login/presentation/login_viewmodel.dart';
 import 'package:flutter_boilerplate_mvvm/setup_injection.dart';
 import 'package:flutter_boilerplate_mvvm/status.dart';
+import 'package:flutter_boilerplate_mvvm/utils/alert_dialog.dart';
 import 'package:provider/provider.dart';
+import 'dart:io' show Platform;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -28,23 +31,65 @@ class _LoginPageState extends State<LoginPage> {
       create: (context) => viewModel,
       child: Consumer<LoginViewModel>(
         builder: ((context, viewModel, child) {
-          return getUi(viewModel);
+          return getUi(context, viewModel);
         }),
       ),
     );
   }
 
-  Widget getUi(LoginViewModel viewModel) {
+  Widget getUi(BuildContext context, LoginViewModel viewModel) {
     switch (viewModel.status) {
       case Status.SUCCESS:
+        Future.delayed(Duration.zero, () async {
+          var result = await DialogUtils.alerta(context).then((value) {
+            if (value!!) {
+              print("ok");
+            }
+          });
+
+          /*if (Platform.isAndroid) {
+              showDialog(
+                context: context,
+                builder: (contexta) => AlertDialog(
+                  title: Text("Test"),
+                  content: Text("test"),
+                  actions: [
+                    TextButton(
+                        onPressed: () => Navigator.pop(contexta, 'Cancel'),
+                        child: Text("Cancel")),
+                    TextButton(
+                        onPressed: () => Navigator.pop(contexta, 'OK'),
+                        child: Text('Ok')),
+                  ],
+                ),
+              );
+            } else {
+              showDialog(
+                context: context,
+                builder: (contexta) => CupertinoAlertDialog(
+                  title: Text("Test"),
+                  content: Text("test"),
+                  actions: [
+                    TextButton(
+                        onPressed: () => Navigator.pop(contexta, 'Cancel'),
+                        child: Text("Cancel")),
+                    TextButton(
+                        onPressed: () => Navigator.pop(contexta, 'OK'),
+                        child: Text('Ok')),
+                  ],
+                ),
+              );
+            }*/
+        });
+
         return loginWidget();
       case Status.ERROR:
-        //Message of error
-        break;
+        return loginWidget();
       default:
+        return loginWidget();
       //ERROR
     }
-    return loginWidget();
+    // return loginWidget();
   }
 
   Widget loginWidget() {
