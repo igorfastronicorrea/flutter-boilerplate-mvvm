@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate_mvvm/data/api/api_response.dart';
 import 'package:flutter_boilerplate_mvvm/data/api/api_response_data.dart';
 import 'package:flutter_boilerplate_mvvm/data/api/base_service.dart';
-import 'package:flutter_boilerplate_mvvm/data/models/login_model.dart';
+import 'package:flutter_boilerplate_mvvm/data/models/login_request_model.dart';
+import 'package:flutter_boilerplate_mvvm/data/models/login_response_model.dart';
 import 'package:flutter_boilerplate_mvvm/feature/login/repositories/login_repository.dart';
 import 'package:flutter_boilerplate_mvvm/feature/login/repositories/login_repository_impl.dart';
 import 'package:flutter_boilerplate_mvvm/status.dart';
@@ -20,7 +21,7 @@ class LoginViewModel with ChangeNotifier {
     LoginRepository loginRepository,
   ) : _repository = loginRepository;
 
-  setUserName(String nome) {
+  setSuccessResponse(String nome) {
     userName = nome;
     status = Status.SUCCESS;
 
@@ -31,11 +32,16 @@ class LoginViewModel with ChangeNotifier {
     try {
       await Future.delayed(const Duration(seconds: 1));
 
-      LoginModel response = await _repository.fetchLogin();
+      LoginRequestModel request =
+          LoginRequestModel(username: "igor", password: "123");
 
-      setUserName(response.name);
+      LoginResponseModel response = await _repository.fetchLogin(request);
+
+      if (response != null) {
+        setSuccessResponse(response.name);
+      }
     } catch (e) {
-      setUserName("ERROR");
+      setSuccessResponse("ERROR");
     }
   }
 }
