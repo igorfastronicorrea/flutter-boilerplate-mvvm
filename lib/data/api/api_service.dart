@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate_mvvm/data/api/api_response_data.dart';
 import 'package:flutter_boilerplate_mvvm/data/api/base_service.dart';
 import 'package:flutter_boilerplate_mvvm/data/models/login_request_model.dart';
@@ -9,8 +10,12 @@ import 'package:dio/dio.dart';
 
 import 'app_exception.dart';
 
-class ApiService extends BaseService {
-  @override
+class ApiService extends ChangeNotifier {
+  final String BASE_URL = "http://192.168.1.6:3333/api";
+  bool _isAuthenticated = false;
+  bool get isAuthenticated => _isAuthenticated;
+
+  // @override
   Future<LoginResponseModel> postAuthentication(
     String endpoint,
     LoginRequestModel request,
@@ -22,8 +27,7 @@ class ApiService extends BaseService {
       dio.options.baseUrl = BASE_URL;
       responseJson = (await dio.post("/auth", data: request));
 
-      LoginResponseModel response =
-          LoginResponseModel.fromJson(responseJson.data);
+      LoginResponseModel response = LoginResponseModel.fromJson(responseJson.data);
       return response;
     } catch (e) {
       throw BadRequestException("error mapping");
@@ -44,5 +48,10 @@ class ApiService extends BaseService {
       default:
         throw BadRequestException("error");
     }
+  }
+
+  void authenticat(bool value) {
+    _isAuthenticated = value;
+    notifyListeners();
   }
 }

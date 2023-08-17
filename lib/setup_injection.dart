@@ -8,20 +8,19 @@ import 'package:get_it/get_it.dart';
 GetIt getIt = GetIt.I;
 
 void setupInjection() {
-  viewModel();
-  repository();
-  apiService();
+  // viewModel();
+  // repository();
+  // apiService();
 }
 
-repository() {
-  getIt.registerLazySingleton<LoginRepository>(
-      () => LoginRepositoryImpl(getIt()));
-}
+// repository() {
+//   getIt.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(getIt()));
+// }
 
-viewModel() {
-  getIt.registerFactory(() => LoginViewModel(getIt()));
-}
+// viewModel() {
+//   getIt.registerFactory(() => LoginViewModel(getIt()));
+// }
 
-apiService() {
-  getIt.registerLazySingleton<BaseService>(() => ApiService());
-}
+// apiService() {
+//   // GetIt.I.registerLazySingleton<BaseService>(() => ApiService());
+// }

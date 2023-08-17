@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate_mvvm/data/api/api_response.dart';
 import 'package:flutter_boilerplate_mvvm/data/api/api_response_data.dart';
+import 'package:flutter_boilerplate_mvvm/data/api/api_service.dart';
 import 'package:flutter_boilerplate_mvvm/data/api/base_service.dart';
 import 'package:flutter_boilerplate_mvvm/data/models/login_request_model.dart';
 import 'package:flutter_boilerplate_mvvm/data/models/login_response_model.dart';
@@ -25,6 +26,8 @@ class LoginViewModel with ChangeNotifier {
     userName = nome;
     status = Status.SUCCESS;
 
+    GetIt.I<ApiService>().authenticat(true);
+
     notifyListeners();
   }
 
@@ -32,8 +35,7 @@ class LoginViewModel with ChangeNotifier {
     try {
       await Future.delayed(const Duration(seconds: 1));
 
-      LoginRequestModel request =
-          LoginRequestModel(username: "igor", password: "123");
+      LoginRequestModel request = LoginRequestModel(username: "igor", password: "123");
 
       LoginResponseModel response = await _repository.fetchLogin(request);
 
@@ -43,5 +45,9 @@ class LoginViewModel with ChangeNotifier {
     } catch (e) {
       setSuccessResponse("ERROR");
     }
+  }
+
+  void login() {
+    valideLogin();
   }
 }
